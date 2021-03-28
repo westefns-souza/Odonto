@@ -10,7 +10,7 @@ using Odonto.Models;
 
 namespace Odonto.Controllers
 {
-    [Authorize(Roles = "Administrador, Profissional, Cliente")]
+    [Authorize]
     public class MarcacoesController : Controller
     {
         private readonly ApplicationDbContext _context;

@@ -9,7 +9,6 @@ using Odonto.Models;
 
 namespace Odonto.Controllers
 {
-    [Authorize(Roles = "Administrador")]
     public class ProfissionaisController : Controller
     {
         private readonly ApplicationDbContext _context;
