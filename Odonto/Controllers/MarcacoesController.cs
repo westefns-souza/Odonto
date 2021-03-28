@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,16 +15,26 @@ namespace Odonto.Controllers
     public class MarcacoesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public MarcacoesController(ApplicationDbContext context)
+        public MarcacoesController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Marcacoes
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Marcacoes.Include(x => x.Procedimento).ToListAsync());
+            var marcacoes = await _context.Marcacoes.Include(x => x.Procedimento).ToListAsync();
+
+            foreach(var marcacao in marcacoes)
+            {
+               var user = await _userManager.FindByIdAsync(marcacao.UsuarioId);
+                marcacao.NomeUsuario = user.UserName;
+            }
+
+            return View(marcacoes);
         }
 
         // GET: Marcacoes/Details/5

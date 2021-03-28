@@ -10,7 +10,6 @@ using Odonto.Models;
 
 namespace Odonto.Controllers
 {
-    [Authorize]
     public class AgendasController : Controller
     {
         private readonly ApplicationDbContext _context;

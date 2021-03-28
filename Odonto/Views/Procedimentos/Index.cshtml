@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<Odonto.Models.Procedimento>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Procedimentos";
 }
 
-<h1>Index</h1>
+<h1>Procedimentos</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Cadastrar Novo Procedimento</a>
 </p>
 <table class="table">
     <thead>
@@ -30,10 +30,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DuracaoMinutos)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ProcedimentoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ProcedimentoId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ProcedimentoId">Delete</a>
+            <td class="text-right">
+                <a asp-action="Edit" asp-route-id="@item.ProcedimentoId" class="btn btn-light">Editar</a>
+                <a asp-action="Details" asp-route-id="@item.ProcedimentoId" class="btn btn-light">Detalhes</a>
+                <a asp-action="Delete" asp-route-id="@item.ProcedimentoId" class="btn btn-light">Deletar</a>
             </td>
         </tr>
 }

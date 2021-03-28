@@ -1,10 +1,10 @@
 ﻿@model Odonto.Models.Agenda
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes";
 }
 
-<h1>Details</h1>
+<h1>Detalhes</h1>
 
 <div>
     <h4>Agenda</h4>
@@ -14,13 +14,7 @@
             @Html.DisplayNameFor(model => model.ProfissionalId)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ProfissionalId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Profissional)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Profissional)
+            @Html.DisplayFor(model => model.Profissional.Nome)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.DataDeInicio)
@@ -37,6 +31,6 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.AgendaId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Edit" asp-route-id="@Model.AgendaId" class="btn btn-light">Editar</a>
+    <a asp-action="Index" class="btn btn-light">Voltar para a lista</a>
 </div>

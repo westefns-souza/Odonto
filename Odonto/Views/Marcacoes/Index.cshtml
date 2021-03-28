@@ -1,19 +1,22 @@
 ﻿@model IEnumerable<Odonto.Models.Marcacao>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Marcações";
 }
 
-<h1>Index</h1>
+<h1>Marcações</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create">Realizar Marcação</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.ProcedimentoId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UsuarioId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.DataDeInicio)
@@ -25,23 +28,27 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Procedimento.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataDeInicio)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataDeFim)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MarcacaoId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MarcacaoId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MarcacaoId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Procedimento.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NomeUsuario)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataDeInicio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataDeFim)
+                </td>
+                <td class="text-right">
+                    <a asp-action="Edit" asp-route-id="@item.MarcacaoId" class="btn btn-light">Editar</a>
+                    <a asp-action="Details" asp-route-id="@item.MarcacaoId" class="btn btn-light">Detalhes</a>
+                    <a asp-action="Delete" asp-route-id="@item.MarcacaoId" class="btn btn-light">Deletar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

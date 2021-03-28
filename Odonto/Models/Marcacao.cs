@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Odonto.Models
 {
@@ -24,6 +25,7 @@ namespace Odonto.Models
 
         public int AgendaId { get; set; }
 
+        [JsonIgnore]
         [ForeignKey(nameof(AgendaId))]
         public Agenda Agenda { get; set; }
         
@@ -44,6 +46,7 @@ namespace Odonto.Models
 
         public bool Marcado { get; set; }
 
-
+        [NotMapped]
+        public string NomeUsuario{ get; set; }
     }
 }
