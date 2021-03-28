@@ -1,0 +1,102 @@
+﻿@model Odonto.Models.Marcacao
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Marcação</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="ProcedimentoId" class="control-label"></label>
+                <select asp-for="ProcedimentoId" asp-items="ViewBag.Procedimentos" class="form-control"></select>
+                <span asp-validation-for="ProcedimentoId" class="text-danger"></span>
+            </div>
+
+            <input asp-for="AgendaId" type="hidden" />
+            <input asp-for="DataDeInicio" type="hidden" />
+            <input asp-for="DataDeFim" type="hidden" />
+
+            <div id="disponibilidades"></div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(function () {
+            obterDisponibilidade();
+
+            $(document).on('change', '#ProcedimentoId', obterDisponibilidade);
+            $(document).on('click', '.btn-horario', AtualizarDatas);
+        });
+
+        function obterDisponibilidade() {
+            var idprocedimento = $('#ProcedimentoId').val();
+            var dataDeAgupamento;
+            var profissional;
+
+            var disponibilidades = $('#disponibilidades');
+            disponibilidades.empty();
+
+            $.get(`/Agendas/ObterAgendasComDisponibilidadePorProcedimento/${idprocedimento}`)
+                .then(function (response) {
+                    response.map(function (agenda) {
+                        var dtInicio = new Date(agenda.dataDeInicio);
+
+                        if (!profissional) {
+                            profissional = agenda.profissional.nome;
+                        }
+
+                        if (!dataDeAgupamento || dataDeAgupamento != dtInicio.toLocaleDateString() || profissional != agenda.profissional.nome) {
+                            dataDeAgupamento = dtInicio.toLocaleDateString();
+                            disponibilidades.append(`<h4>${dtInicio.toLocaleDateString()} - ${agenda.profissional.nome}</h4>`);
+                        }
+
+                        agenda.disponibilidades.map(function (disponivel) {
+                            console.log(disponivel);
+                            var data = new Date(disponivel.dataDeInicio);
+                            disponibilidades.append(
+                                `<button type="button" class="btn btn-outline-primary m-2 btn-horario" data-idagenda="${disponivel.agendaId}" data-hora-inicio="${disponivel.dataDeInicio}" data-hora-fim="${disponivel.dataDeFim}">
+                                    ${data.getHours()}:${data.getMinutes()}
+                                </button>`
+                            );
+                        });
+                    });
+                });
+        }
+
+        function AtualizarDatas() {
+            var idagenda = $(this).attr('data-idagenda');
+            var dataInicio = $(this).attr('data-hora-inicio');
+            var dataFim = $(this).attr('data-hora-fim');
+
+            $(document).find('#AgendaId').val(idagenda);
+            $(document).find('#DataDeInicio').val(dataInicio);
+            $(document).find('#DataDeFim').val(dataFim);
+
+            var itens_Marcados = $(document).find('#disponibilidades .btn-primary');
+
+            itens_Marcados.map(function (index, item) {
+                $(item).removeClass('btn-primary').addClass('btn-outline-primary');
+            });
+
+            $(this).removeClass('btn-outline-primary').addClass('btn-primary');
+        }
+    </script>
+}
