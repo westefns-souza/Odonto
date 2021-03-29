@@ -1,8 +1,33 @@
-﻿@{
+﻿@model List<Odonto.Models.Marcacao>
+@{
     ViewData["Title"] = "Home";
 }
 
 <div class="text-center">
     <h1 class="display-4">Bem-vindo</h1>
-    <p>Projeto da clínica odontologica</p>
+    <p>Projeto da clínica odontológica</p>
 </div>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var marcacao in Model)
+    {
+        <div class="card">
+            <div class="card-body">
+                <p>
+                    @marcacao.DataDeInicio.ToShortDateString() @marcacao.DataDeInicio.ToShortTimeString() - @marcacao.Procedimento.Nome
+                </p>
+                <p>
+                    Profissional: @marcacao.Agenda.Profissional.Nome
+                </p>
+                <a asp-controller="Marcacoes" asp-action="Delete" asp-route-id="@marcacao.MarcacaoId" class="btn btn-light">Desmarcar</a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="alert alert-primary" role="alert">
+        Você ainda não tem agendamentos!
+    </div>
+}

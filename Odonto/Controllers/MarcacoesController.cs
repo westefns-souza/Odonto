@@ -26,9 +26,15 @@ namespace Odonto.Controllers
         // GET: Marcacoes
         public async Task<IActionResult> Index()
         {
-            var marcacoes = await _context.Marcacoes.Include(x => x.Procedimento).ToListAsync();
+            var marcacoes = _context.Marcacoes
+                .Include(c => c.Procedimento)
+                .Include(c => c.Agenda)
+                .ThenInclude(x => x.Profissional)
+                .OrderByDescending(x => x.DataDeInicio)
+                .Where(t => t.UsuarioId.Equals(User.FindFirstValue(ClaimTypes.NameIdentifier)))
+                .ToList();
 
-            foreach(var marcacao in marcacoes)
+            foreach (var marcacao in marcacoes)
             {
                var user = await _userManager.FindByIdAsync(marcacao.UsuarioId);
                 marcacao.NomeUsuario = user.UserName;

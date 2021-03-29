@@ -1,10 +1,10 @@
 ﻿@model Odonto.Models.Marcacao
 
 @{
-    ViewData["Title"] = "Deletar";
+    ViewData["Title"] = "Desmarcar";
 }
 
-<h1>Deletar</h1>
+<h1>Desmarcar</h1>
 
 <h3>Você quer realmente apagar isso?</h3>
 <div>
@@ -39,7 +39,7 @@
     
     <form asp-action="Delete">
         <input type="hidden" asp-for="MarcacaoId" />
-        <input type="submit" value="Deletar" class="btn btn-danger" />
+        <input type="submit" value="Desmarcar" class="btn btn-danger" />
         <a asp-action="Index" class="btn btn-light">Voltar para a lista</a>
     </form>
 </div>
