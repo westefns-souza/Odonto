@@ -31,7 +31,7 @@ namespace Odonto.Controllers
                 .Include(c => c.Agenda)
                 .ThenInclude(x => x.Profissional)
                 .OrderByDescending(x => x.DataDeInicio)
-                .Where(t => t.UsuarioId.Equals(User.FindFirstValue(ClaimTypes.NameIdentifier)))
+               
                 .ToList();
 
             foreach (var marcacao in marcacoes)

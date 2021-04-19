@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Desktop\\vaw\\Odonto\\Odonto\\Odonto.csproj": {}
+    "D:\\Desktop\\Odonto\\Odonto\\Odonto.csproj": {}
   },
   "projects": {
-    "D:\\Desktop\\vaw\\Odonto\\Odonto\\Odonto.csproj": {
+    "D:\\Desktop\\Odonto\\Odonto\\Odonto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Desktop\\vaw\\Odonto\\Odonto\\Odonto.csproj",
+        "projectUniqueName": "D:\\Desktop\\Odonto\\Odonto\\Odonto.csproj",
         "projectName": "Odonto",
-        "projectPath": "D:\\Desktop\\vaw\\Odonto\\Odonto\\Odonto.csproj",
+        "projectPath": "D:\\Desktop\\Odonto\\Odonto\\Odonto.csproj",
         "packagesPath": "C:\\Users\\weste\\.nuget\\packages\\",
-        "outputPath": "D:\\Desktop\\vaw\\Odonto\\Odonto\\obj\\",
+        "outputPath": "D:\\Desktop\\Odonto\\Odonto\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -25,7 +25,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "http://s-apl01:8088/nuget": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -99,7 +98,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }
