@@ -31,6 +31,9 @@ namespace Odonto.Models
         
         [Display(Name = "Paciente")]
         public string UsuarioId { get; set; }
+        
+        [Display(Name = "Paciente")]
+        public string NomePaciente { get; set; }
 
         [Display(Name = "Procedimento")]
         public int ProcedimentoId { get; set; }

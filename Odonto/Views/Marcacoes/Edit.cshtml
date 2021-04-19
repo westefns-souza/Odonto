@@ -12,29 +12,27 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="MarcacaoId" />
+
             <div class="form-group">
-                <label asp-for="AgendaId" class="control-label"></label>
-                <input asp-for="AgendaId" class="form-control" />
-                <span asp-validation-for="AgendaId" class="text-danger"></span>
+                <label asp-for="NomePaciente" class="control-label"></label>
+                <input asp-for="NomePaciente" class="form-control" />
+                <span asp-validation-for="NomePaciente" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="ProcedimentoId" class="control-label"></label>
-                <input asp-for="ProcedimentoId" class="form-control" />
+                <select asp-for="ProcedimentoId" asp-items="ViewBag.Procedimentos" class="form-control"></select>
                 <span asp-validation-for="ProcedimentoId" class="text-danger"></span>
             </div>
+
+            <input asp-for="AgendaId" type="hidden" />
+            <input asp-for="DataDeInicio" type="hidden" />
+            <input asp-for="DataDeFim" type="hidden" />
+
+            <div id="disponibilidades"></div>
+
             <div class="form-group">
-                <label asp-for="DataDeInicio" class="control-label"></label>
-                <input asp-for="DataDeInicio" class="form-control" />
-                <span asp-validation-for="DataDeInicio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataDeFim" class="control-label"></label>
-                <input asp-for="DataDeFim" class="form-control" />
-                <span asp-validation-for="DataDeFim" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Editar" class="btn btn-primary" />
+                <input type="submit" value="Cadastrar" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -46,4 +44,65 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(function () {
+            obterDisponibilidade();
+
+            $(document).on('change', '#ProcedimentoId', obterDisponibilidade);
+            $(document).on('click', '.btn-horario', AtualizarDatas);
+        });
+
+        function obterDisponibilidade() {
+            var idprocedimento = $('#ProcedimentoId').val();
+            var dataDeAgupamento;
+            var profissional;
+
+            var disponibilidades = $('#disponibilidades');
+            disponibilidades.empty();
+
+            $.get(`/Agendas/ObterAgendasComDisponibilidadePorProcedimento/${idprocedimento}`)
+                .then(function (response) {
+                    response.map(function (agenda) {
+                        var dtInicio = new Date(agenda.dataDeInicio);
+
+                        if (!profissional) {
+                            profissional = agenda.profissional.nome;
+                        }
+
+                        if (!dataDeAgupamento || dataDeAgupamento != dtInicio.toLocaleDateString() || profissional != agenda.profissional.nome) {
+                            dataDeAgupamento = dtInicio.toLocaleDateString();
+                            disponibilidades.append(`<h4>${dtInicio.toLocaleDateString()} - ${agenda.profissional.nome}</h4>`);
+                        }
+
+                        agenda.disponibilidades.map(function (disponivel) {
+                            console.log(disponivel);
+                            var data = new Date(disponivel.dataDeInicio);
+                            disponibilidades.append(
+                                `<button type="button" class="btn btn-outline-primary m-2 btn-horario" data-idagenda="${disponivel.agendaId}" data-hora-inicio="${disponivel.dataDeInicio}" data-hora-fim="${disponivel.dataDeFim}">
+                                    ${data.getHours()}:${data.getMinutes()}
+                                </button>`
+                            );
+                        });
+                    });
+                });
+        }
+
+        function AtualizarDatas() {
+            var idagenda = $(this).attr('data-idagenda');
+            var dataInicio = $(this).attr('data-hora-inicio');
+            var dataFim = $(this).attr('data-hora-fim');
+
+            $(document).find('#AgendaId').val(idagenda);
+            $(document).find('#DataDeInicio').val(dataInicio);
+            $(document).find('#DataDeFim').val(dataFim);
+
+            var itens_Marcados = $(document).find('#disponibilidades .btn-primary');
+
+            itens_Marcados.map(function (index, item) {
+                $(item).removeClass('btn-primary').addClass('btn-outline-primary');
+            });
+
+            $(this).removeClass('btn-outline-primary').addClass('btn-primary');
+        }
+    </script>
 }
